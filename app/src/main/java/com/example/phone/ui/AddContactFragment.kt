@@ -1,6 +1,7 @@
 package com.example.phone.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,9 +53,12 @@ class AddContactFragment : Fragment() {
                 Toast.makeText(requireContext(), "fill fields, motherfucker", Toast.LENGTH_SHORT).show()
             }
             else{
-                val contact = Contact(name = binding.nameOrg.text.toString(), number = binding.numberOrg.text.toString(), id = binding.surnameOrg.text.toString().toInt())
+                val contact = Contact(name = binding.nameOrg.text.toString(), number = binding.numberOrg.text.toString())
+
+                Log.d("FGH", "onCreateView: "+contact.name+binding.nameOrg.text.toString())
+
                 val status =sqLiteOpenHelper.addContact(contact)
-                if (status > 0){
+                if (status > -1){
                     Toast.makeText(requireContext(), "new contact added succesfully", Toast.LENGTH_SHORT).show()
                     parentFragmentManager.beginTransaction().replace(R.id.main_activity, ContactsFragment()).commit()
                 }

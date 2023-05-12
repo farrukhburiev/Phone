@@ -1,5 +1,6 @@
 package com.example.phone.sql
 
+import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
@@ -21,21 +22,21 @@ class DBHelper(context: Context) :
 
     override fun onCreate(db: SQLiteDatabase?) {
         val contacts =
-            ("CREATE TABLE" + TABLE_CONTACTS + "(" + ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + NAME + " TEXT, " + PHOME_NUMBER + " TEXT" + ")")
+            ("CREATE TABLE " + TABLE_CONTACTS + " ( " + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME + " TEXT, " + PHOME_NUMBER + " TEXT )")
 
         db?.execSQL(contacts)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_CONTACTS")
-        onCreate(db)
+//        db!!.execSQL("DROP TABLE IF EXISTS $TABLE_CONTACTS")
+//        onCreate(db)
     }
 
     fun addContact(contact: Contact):Long{
         val db = this.writableDatabase
         val contentValues = ContentValues()
         contentValues.put(NAME,contact.name)
-        contentValues.put(ID,contact.id)
+//        contentValues.put(ID,contact.id)
         contentValues.put(PHOME_NUMBER,contact.number)
 
         val succes = db.insert(TABLE_CONTACTS,null,contentValues)
@@ -43,9 +44,10 @@ class DBHelper(context: Context) :
         return succes
     }
 
-    fun contacts():ArrayList    <Contact>{
+    @SuppressLint("Range")
+    fun contacts():ArrayList<Contact>{
         val selectQuery = "SELECT * FROM $TABLE_CONTACTS"
-        val contactList:ArrayList<Contact> = ArrayList()
+        val contactList:ArrayList<Contact> = ArrayList<Contact>()
         val db = this.readableDatabase
 
         var cursor:Cursor

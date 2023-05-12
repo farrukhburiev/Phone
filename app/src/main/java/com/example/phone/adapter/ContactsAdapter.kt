@@ -31,5 +31,7 @@ class ContactsAdapter(val list:ArrayList<Contact>): RecyclerView.Adapter<Contact
         var item = list[position]
         holder.name.text = item.name
         holder.number.text = item.number
+
+
     }
 }
